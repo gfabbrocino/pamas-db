@@ -1,0 +1,42 @@
+------------------------------------------------------------------------
+Nome: Tipologia Veicolo
+Descrizione: Tariffa in base alla tipologia del veicolo
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+Parametri
+------------------------------------------------------------------------
+|     NOME     |                DESCRIZIONE              | VALORI |
+| prezzo_moto  | Pezzo a ora per Motociclo e Ciclomotore | 1.00   |
+| prezzo_auto  | Prezzo a ora per Auto                   | 2.00   |
+| prezzo_altro | Prezzo a ora per altri veicoli          | 3.00   |
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+Script
+------------------------------------------------------------------------
+function calculate(price) {
+  var amount = 0.00;
+  if(ep.duration.toMinutes() > 5) {
+    amount = ep.duration.toHours() * price;
+    if(ep.duration.toMinutesPart() > 5) {
+        amount += price;
+    }
+  }
+  return amount;
+}
+function main() {
+  var amount = 0.00;
+  switch(ep.vehicle.type) {
+    case 'Motociclo':
+    case 'Motoveicolo':
+      amount = calculate(parseFloat(prezzo_moto));
+    break;
+    case 'Autoveicolo':
+      amount = calculate(parseFloat(prezzo_auto));
+    break;
+    default:
+      amount = calculate(parseFloat(prezzo_altro));
+  }
+  return amount;
+}
+main();
+------------------------------------------------------------------------

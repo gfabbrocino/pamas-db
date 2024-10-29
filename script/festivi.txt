@@ -1,0 +1,40 @@
+------------------------------------------------------------------------
+Nome: Prefestivi e Festivi
+Descrizione: Tariffario che tiene conto dei festivi e prefestivi
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+Parametri
+------------------------------------------------------------------------
+|     NOME        |                DESCRIZIONE              | VALORI |
+| tariffa_feriale | Tariffa oraria nei giorni feriali       | 1.00   |
+| tariffa_prefest | Tariffa oraria nei giorni prefestivi    | 1.50   |
+| tariffa_fest    | Tariffa oraria nei giorni festivi       | 2.00   |
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+Script
+------------------------------------------------------------------------
+function calculate(price) {
+  var amount = 0.00;
+  if(ep.duration.toMinutes() > 5) {
+    amount = ep.duration.toHours() * price;
+    if(ep.duration.toMinutesPart() > 5) {
+        amount += price;
+    }
+  }
+  return amount;
+}
+function main() {
+  var amount = 0.00;
+  if(ep.dayType == -1) { // Prefestivo
+    amount = calculate(parseFloat(tariffa_prefest));
+  }
+  else if(ep.dayType == 0) { // Feriale
+    amount = calculate(parseFloat(tariffa_feriale));
+  }
+  else if(ep.dayType == 1) { // Festivo
+    amount = calculate(parseFloat(tariffa_fest));
+  }
+  return amount;
+}
+main();
+------------------------------------------------------------------------
